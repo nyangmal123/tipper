@@ -72,7 +72,6 @@ const ServicePage = () => {
   const [notAllow2, setNotAllow2] = useState(true); //* 비교하기 버튼 활성화 상태 값 저장
   const [showSearch, setShowSearch] = useState(true); //* 검색창 활성화 상태 값 저장
   const [activeItem, setActiveItem] = useState("");
-  const [userInputs, setUserInputs] = useState([]); //* 선택된 상품의 id 저장
   //상품검색state
   const [searchBank, setSearchBank] = useState("");
   //예금상품 baseList , optionList
@@ -93,7 +92,6 @@ const ServicePage = () => {
   const [intrRate, setIntrRate] = useState(""); //* 선택된 상품의 intr_rate(이자율) 저장
   const [intrRate2, setIntrRate2] = useState(""); //* 선택된 상품의 intr_rate(최대금리) 저장
   const [intrRateType, setIntrRateType] = useState(""); //* 선택된 상품의 intr_rate_type(이자율타입 :단리, 복리) 저장
-  const [productList, setProductList] = useState([]);
   const [user, setUser] = useState({});
 
   //* recoil 적용
@@ -282,7 +280,11 @@ const ServicePage = () => {
       newSelectedProductIds[index + i] = "";
     }
 
-    setSelectedProductIds(newSelectedProductIds);
+    return setSelectedProductIds(
+      newSelectedProductIds
+        .filter((x) => x !== "")
+        .concat(newSelectedProductIds.filter((x) => x === ""))
+    );
   };
 
   //* 동일된 상품 선택시 함수 종료.
@@ -408,7 +410,7 @@ const ServicePage = () => {
     }
   }, [amountWithoutCommas]);
 
-  //* input 상태 값 저장슬리이더 함수
+  //* input 상태 값 저장슬라이더 함수
   const handleChange = (event) => {
     const newValue = parseInt(event.target.value, 10);
     setValue(newValue);
